@@ -7,7 +7,13 @@ UPSCALE = 10
 class Display():
     def __init__(self):
         # Display
+        self.screen = None
+
+    def start(self):
+        pygame.init()
         self.screen = pygame.display.set_mode((64*UPSCALE, 32*UPSCALE))
+        self.clear()
+        self.update()
         
     def update(self):
         pygame.display.update()

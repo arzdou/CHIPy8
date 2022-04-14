@@ -1,4 +1,6 @@
-from Display import Display
+from .Display import Display
+
+INITIAL_PC = 0x200
 
 class Chip8():
     def __init__(self):
@@ -6,8 +8,8 @@ class Chip8():
         self.memory = bytearray(4096) # Memory of 4kB
         self.var = bytearray(16)      # 16 8-bit Variable registers
         self.stack = []               # Stack for 16-bit addresses
-        self.pc = 0                   # Program Counter 
-        self.ic = 0                   # 16-bit Index Register
+        self.pc = INITIAL_PC          # Program Counter 
+        self.ic = 0x0          # 16-bit Index Register
         
         self.d_timer = 0              # 8-bit Delay Timer
         self.s_timer = 0              # 8-bit Sound timer
@@ -33,6 +35,31 @@ class Chip8():
             0xE: None,
             0xF: None,
         }
+
+        """
+        # Load the font into memory
+        font = [
+            0xF0, 0x90, 0x90, 0x90, 0xF0, # 0
+            0x20, 0x60, 0x20, 0x20, 0x70, # 1
+            0xF0, 0x10, 0xF0, 0x80, 0xF0, # 2
+            0xF0, 0x10, 0xF0, 0x10, 0xF0, # 3
+            0x90, 0x90, 0xF0, 0x10, 0x10, # 4
+            0xF0, 0x80, 0xF0, 0x10, 0xF0, # 5
+            0xF0, 0x80, 0xF0, 0x90, 0xF0, # 6
+            0xF0, 0x10, 0x20, 0x40, 0x40, # 7
+            0xF0, 0x90, 0xF0, 0x90, 0xF0, # 8
+            0xF0, 0x90, 0xF0, 0x10, 0xF0, # 9
+            0xF0, 0x90, 0xF0, 0x90, 0x90, # A
+            0xE0, 0x90, 0xE0, 0x90, 0xE0, # B
+            0xF0, 0x80, 0x80, 0x80, 0xF0, # C
+            0xE0, 0x90, 0x90, 0x90, 0xE0, # D
+            0xF0, 0x80, 0xF0, 0x80, 0xF0, # E
+            0xF0, 0x80, 0xF0, 0x80, 0x80  # F
+        ]
+
+        for i, byte in enumerate(font):
+            self.memory[i] = byte
+        """
         
     def fetch(self):
         instruction = (
@@ -116,14 +143,14 @@ class Chip8():
         for row in range(N):
             sprite_byte = self.memory[self.ic + row]
             sprite_bits = bin(sprite_byte)[2:].zfill(8)
-            
+
             for b in sprite_bits:
                 pixel = self.display.get_pixel(x_coord, y_coord)
                 
-                if bool(b) and pixel:
+                if b=='1' and pixel:
                     self.display.errase_pixel(x_coord, y_coord)
                     self.var[0xF] = 1
-                elif bool(b) and not pixel:
+                elif b=='1' and not pixel:
                     self.display.draw_pixel(x_coord, y_coord)
                     
                 x_coord += 1
@@ -137,4 +164,22 @@ class Chip8():
         
         self.display.update()
         return 0
+    
+    def load_into_memory(self, rom_file, location):
+        """
+        Load into memory the a rom file at the specified location.
+        There is also a sanitary check to see if we are using 
+        unavailable memory.
+        """
+        rom = open(rom_file, 'rb').read()
+
+        if location + len(rom) >= len(self.memory):
+            raise RuntimeError("Memory to load rom is not available, check size and offset")
+
+        for i, byte in enumerate(rom):
+            self.memory[location+i] = byte
         
+        return 0
+
+    def start_screen(self):
+        self.display.start()
