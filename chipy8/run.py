@@ -11,9 +11,8 @@ def run():
     
     running = True
     while running:
-        sleep(0.1)
-        instruction = chip.fetch()
-        chip.decode(instruction)
+        sleep(1/60) # Run at 60Hz
+        chip.iterate()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

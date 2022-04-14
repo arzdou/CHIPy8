@@ -61,16 +61,18 @@ class Chip8():
             self.memory[i] = byte
         """
         
-    def fetch(self):
-        instruction = (
+    def iterate(self):
+        """
+        Main execution loop. Fetches two bytes from memory then
+        calls the appropiate opcode depending on the first nibble
+        """
+        # Fetch from memory
+        b1, b2 = (
             self.memory[self.pc],
             self.memory[self.pc+1]
         )
         self.pc+=2
-        return instruction
-    
-    def decode(self, ins):
-        b1, b2 = ins
+
         # Get the operation nibble
         n = b1 >> 4
         
