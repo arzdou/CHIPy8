@@ -26,9 +26,8 @@ KEY_MAP = {
 
 INVERTED_KEY_MAP = {key: idx for idx, key in KEY_MAP.items()}
 
-class Display():
+class Interface():
     def __init__(self):
-        # Display
         self.screen = None
 
     def start(self):

@@ -1,7 +1,8 @@
 from random import randint
-from .Display import Display
+from .Interface import Interface
 
 INITIAL_PC = 0x200
+COSMAC_VIP = False
 
 class Chip8():
     def __init__(self):
@@ -15,7 +16,7 @@ class Chip8():
         self.delay_counter = 0        # 8-bit Delay counter
         self.sound_counter = 0        # 8-bit Sound counter
 
-        self.display = Display()      # Screen display
+        self.interface = Interface()  # User interface: screen and keyboard
         
         # Declare all operational codes
         self.opcodes_c8 = {
@@ -33,8 +34,8 @@ class Chip8():
             0xB: self.jump_with_offset,
             0xC: self.random,
             0xD: self.draw,
-            0xE: None,
-            0xF: None,
+            0xE: self.skip_if_key,
+            0xF: self.extra_operations,
         }
 
         """
@@ -58,9 +59,9 @@ class Chip8():
             0xF0, 0x80, 0xF0, 0x80, 0x80  # F
         ]
 
-        for i, byte in enumerate(font):
-            self.memory[i] = byte
+        self.load_into_memory(font, location=0x0)
         """
+
 
     def push(self, b):
         """
@@ -107,13 +108,13 @@ class Chip8():
         This instruction is associated with the following opcodes:
             - 0x0NNN :  Pause the execution and the program located 
                         at NNN (Not implemented)
-            - 0x00E0 :  Clear the display screen
+            - 0x00E0 :  Clear the interface screen
             - 0x00EE :  Returns form a subrutine and sets the pc to 
                         the last value from the stack
         """
         if NNN == 0x0E0:
-            self.display.clear()
-            self.display.update()
+            self.interface.clear()
+            self.interface.update()
         elif NNN == 0x0EE:
             self.pc = self.pop()
         return 0
@@ -300,13 +301,13 @@ class Chip8():
             sprite_bits = bin(sprite_byte)[2:].zfill(8)
 
             for b in sprite_bits:
-                pixel = self.display.get_pixel(x_coord, y_coord)
+                pixel = self.interface.get_pixel(x_coord, y_coord)
                 
                 if b=='1' and pixel:
-                    self.display.errase_pixel(x_coord, y_coord)
+                    self.interface.errase_pixel(x_coord, y_coord)
                     self.var[0xF] = 1
                 elif b=='1' and not pixel:
-                    self.display.draw_pixel(x_coord, y_coord)
+                    self.interface.draw_pixel(x_coord, y_coord)
                     
                 x_coord += 1
                 if x_coord > 63:
@@ -317,7 +318,7 @@ class Chip8():
             if y_coord > 31:
                 break
         
-        self.display.update()
+        self.interface.update()
         return 0
 
     def skip_if_key(self, X, NN, **kwarg):
@@ -332,11 +333,11 @@ class Chip8():
         VX = self.var[X]
 
         if NN == 0x9E:
-            if self.display.is_key_pressed(VX):
+            if self.interface.is_key_pressed(VX):
                 self.pc += 2
 
         elif NN == 0xA1:
-            if not self.display.is_key_pressed(VX):
+            if not self.interface.is_key_pressed(VX):
                 self.pc += 2
 
         return 0
@@ -362,7 +363,12 @@ class Chip8():
                         address in the index register I.
             - 0xFX55 :  The value of each variable register from V0 to VX inclusive 
                         (if X is 0, then only V0) will be stored in successive 
-                        memory addresses, starting with the one that is stored in I
+                        memory addresses, starting with the one that is stored in I.
+                        The original CHIP-8 interpreter for the COSMAC VIP actually 
+                        incremented the I register while it worked. Each time it 
+                        stored or loaded one register, it incremented I. After the 
+                        instruction was finished, I would be set to the new value 
+                        I + X + 1
             - 0xFX65 :  The same as 0xFX55 but takes the value stored at the memory 
                         addresses and loads them into the variable registers instead.
         """
@@ -388,7 +394,7 @@ class Chip8():
                 self.var[0xF] = 0
         
         elif NN == 0x0A:
-            input_key = self.display.wait_for_keypress()    
+            input_key = self.interface.wait_for_keypress()    
             self.var[X] = input_key
 
         elif NN == 0x29:
@@ -404,9 +410,13 @@ class Chip8():
 
         elif NN == 0x55:
             self.memory[I:I+X+1] = self.var[:X+1]
+            if COSMAC_VIP:
+                self.ic += X+1
         
         elif NN == 0x65:
             self.var[:X+1] = self.memory[I:I+X+1]
+            if COSMAC_VIP:
+                self.ic += X+1
 
         else:
             raise RuntimeError("Operational code used is not valid")
@@ -430,4 +440,4 @@ class Chip8():
         return 0
 
     def start_screen(self):
-        self.display.start()
+        self.interface.start()
