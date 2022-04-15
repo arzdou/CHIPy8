@@ -66,7 +66,7 @@ class Interface():
         return INVERTED_KEY_MAP[key]
 
     def make_beep(self):
-        print("beep")
+        #print("beep")
         return 0
     
     def clear(self):
