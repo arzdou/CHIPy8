@@ -5,15 +5,15 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="CHIPy8",
-    version="0.0.1",
+    version="0.0.2",
     author="Jaime Travesedo",
     author_email="jaimetravesedo125@gmail.com",
     description="CHIP8 interpreter",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/jtl125/CHIPy-8",
+    url="https://github.com/jtl125/CHIPy8",
     project_urls={
-        "Bug Tracker": "https://github.com/jtl125/CHIPy-8/issues",
+        "Bug Tracker": "https://github.com/jtl125/CHIPy8/issues",
     },
     scripts=["bin/chipy8"],
     classifiers=[

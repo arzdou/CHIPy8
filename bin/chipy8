@@ -9,7 +9,7 @@ args = sys.argv
 
 if len(args) == 1:
     print(
-        "CHIPy8, a simple python CHIP8 interpreter by Jaime Travesedo. \n",
+        " CHIPy8, a simple python CHIP8 interpreter by Jaime Travesedo. \n",
         "Use 'chipy8 file/to/rom.ch8' to run a CHIP8 program."
     )
     sys.exit()
