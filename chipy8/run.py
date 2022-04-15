@@ -1,13 +1,13 @@
 import pygame
-from .Chip8 import Chip8
 from time import sleep
 
+from .Chip8 import Chip8
+from .config import FONT_FILE, INITIAL_PC
 
-def run():
+def run(rom):
     chip = Chip8()
-    chip.start_screen()
-    chip.load_into_memory("roms/font.ch8", 0x0)
-    chip.load_into_memory("roms/test_opcode.ch8", 0x200)
+    chip.load_into_memory(FONT_FILE, 0x0)
+    chip.load_into_memory(rom, INITIAL_PC)
     
     running = True
     while running:

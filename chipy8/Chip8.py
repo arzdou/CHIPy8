@@ -5,16 +5,21 @@ from .config import INITIAL_PC, COSMAC_VIP
 class Chip8():
     def __init__(self):
         # Declare all registers
-        self.memory = bytearray(4096) # Memory of 4kB
-        self.var = bytearray(16)      # 16 8-bit Variable registers
+        self.memory = bytearray()     # Memory of 4kB
+        self.var = bytearray()        # 16 8-bit Variable registers
         self.stack = []               # Stack for 16-bit addresses
-        self.pc = INITIAL_PC          # Program Counter 
+
+        self.pc = 0x0                 # Program Counter 
         self.ic = 0x0                 # 16-bit Index Register
         
         self.delay_counter = 0        # 8-bit Delay counter
         self.sound_counter = 0        # 8-bit Sound counter
 
         self.interface = Interface()  # User interface: screen and keyboard
+        self.interface_off = True
+
+        # Set all the variables to their initial value
+        self.reset()  
         
         # Declare all operational codes
         self.opcodes_c8 = {
@@ -36,29 +41,21 @@ class Chip8():
             0xF: self.extra_operations,
         }
 
-        """
-        # Load the font into memory
-        font = [
-            0xF0, 0x90, 0x90, 0x90, 0xF0, # 0
-            0x20, 0x60, 0x20, 0x20, 0x70, # 1
-            0xF0, 0x10, 0xF0, 0x80, 0xF0, # 2
-            0xF0, 0x10, 0xF0, 0x10, 0xF0, # 3
-            0x90, 0x90, 0xF0, 0x10, 0x10, # 4
-            0xF0, 0x80, 0xF0, 0x10, 0xF0, # 5
-            0xF0, 0x80, 0xF0, 0x90, 0xF0, # 6
-            0xF0, 0x10, 0x20, 0x40, 0x40, # 7
-            0xF0, 0x90, 0xF0, 0x90, 0xF0, # 8
-            0xF0, 0x90, 0xF0, 0x10, 0xF0, # 9
-            0xF0, 0x90, 0xF0, 0x90, 0x90, # A
-            0xE0, 0x90, 0xE0, 0x90, 0xE0, # B
-            0xF0, 0x80, 0x80, 0x80, 0xF0, # C
-            0xE0, 0x90, 0x90, 0x90, 0xE0, # D
-            0xF0, 0x80, 0xF0, 0x80, 0xF0, # E
-            0xF0, 0x80, 0xF0, 0x80, 0x80  # F
-        ]
+    def reset(self):
+        self.memory = bytearray(4096) # Memory of 4kB
+        self.var = bytearray(16)      # 16 8-bit Variable registers
+        self.stack = []               # Stack for 16-bit addresses
 
-        self.load_into_memory(font, location=0x0)
-        """
+        self.pc = INITIAL_PC          # Program Counter 
+        self.ic = 0x0                 # 16-bit Index Register
+        
+        self.delay_counter = 0        # 8-bit Delay counter
+        self.sound_counter = 0        # 8-bit Sound counter
+
+        if self.interface_off:
+            self.start_interface()
+        else:
+            self.interface.clear()
         
     def iterate(self):
         """
@@ -457,5 +454,6 @@ class Chip8():
         b = self.stack.pop(-1)
         return b
 
-    def start_screen(self):
+    def start_interface(self):
+        self.interface_off = False
         self.interface.start()

@@ -1,5 +1,6 @@
 import pygame
 
+FONT_FILE = "roms/font.ch8"
 INITIAL_PC = 0x200
 COSMAC_VIP = False
 
