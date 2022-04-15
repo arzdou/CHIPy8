@@ -61,21 +61,6 @@ class Chip8():
 
         self.load_into_memory(font, location=0x0)
         """
-
-
-    def push(self, b):
-        """
-        Push b into the stack
-        """
-        self.stack.append(b)
-        return 0
-
-    def pop(self):
-        """
-        Pops the last value in from the stack
-        """
-        b = self.stack.pop(-1)
-        return b
         
     def iterate(self):
         """
@@ -438,6 +423,36 @@ class Chip8():
             self.memory[location+i] = byte
         
         return 0
+    
+    def decrease_counters(self):
+        """
+        Decrease both counters and make a sound if the sound counter is 0.
+        
+        UPDATE:
+        This process should happen at a steady 60 Hz rate, independant of 
+        the main loop. This is not the case yet and has to be implemented
+        """
+        if self.delay_counter > 0:
+            self.delay_counter -= 1
+        
+        if self.sound_counter > 0:
+            self.sound_counter -= 1
+            self.interface.make_beep()
+            
+
+    def push(self, b):
+        """
+        Push b into the stack
+        """
+        self.stack.append(b)
+        return 0
+
+    def pop(self):
+        """
+        Pops the last value in from the stack
+        """
+        b = self.stack.pop(-1)
+        return b
 
     def start_screen(self):
         self.interface.start()

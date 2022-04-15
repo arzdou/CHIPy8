@@ -13,7 +13,8 @@ def run():
     while running:
         sleep(1/60) # Run at 60Hz
         chip.iterate()
-
+        chip.decrease_counters() # This is not correct and has to be updated
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
