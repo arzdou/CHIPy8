@@ -1,8 +1,7 @@
 import pygame
-from time import sleep
 
 from .Chip8 import Chip8
-from .config import FONT_FILE, INITIAL_PC
+from .config import FONT_FILE, INITIAL_PC, WAITING_TIME
 
 def run(rom):
     chip = Chip8()
@@ -11,7 +10,7 @@ def run(rom):
     
     running = True
     while running:
-        sleep(1/60) # Run at 60Hz
+        pygame.time.wait(WAITING_TIME)
         chip.iterate()
         chip.decrease_counters() # This is not correct and has to be updated
         
