@@ -1,3 +1,4 @@
+import sys
 import pygame
 
 BACKGROUND = (0,0,0)
@@ -5,23 +6,25 @@ COLOR = (255,255,255)
 UPSCALE = 10
 
 KEY_MAP = {
-    0x0: pygame.K_g,
-    0x1: pygame.K_4,
-    0x2: pygame.K_5,
-    0x3: pygame.K_6,
-    0x4: pygame.K_7,
-    0x5: pygame.K_r,
-    0x6: pygame.K_t,
-    0x7: pygame.K_y,
-    0x8: pygame.K_u,
-    0x9: pygame.K_f,
-    0xA: pygame.K_h,
-    0xB: pygame.K_j,
-    0xC: pygame.K_v,
-    0xD: pygame.K_b,
-    0xE: pygame.K_n,
-    0xF: pygame.K_m,
+    0x0: pygame.K_1,
+    0x1: pygame.K_2,
+    0x2: pygame.K_3,
+    0x3: pygame.K_4,
+    0x4: pygame.K_q,
+    0x5: pygame.K_w,
+    0x6: pygame.K_e,
+    0x7: pygame.K_r,
+    0x8: pygame.K_a,
+    0x9: pygame.K_s,
+    0xA: pygame.K_d,
+    0xB: pygame.K_f,
+    0xC: pygame.K_z,
+    0xD: pygame.K_x,
+    0xE: pygame.K_c,
+    0xF: pygame.K_v,
 }
+
+INVERTED_KEY_MAP = {key: idx for idx, key in KEY_MAP.items()}
 
 class Display():
     def __init__(self):
@@ -69,6 +72,23 @@ class Display():
         key = KEY_MAP[key_index]
         pressed_keys = pygame.key.get_pressed()
         return pressed_keys[key]
+
+    def wait_for_keypress(self):
+        """
+        Code inspired from https://stackoverflow.com/questions/20748326
+        """
+        pygame.event.clear()
+        while True:
+            event = pygame.event.wait()
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit() 
+            elif event.type == pygame.KEYDOWN:
+                key = event.key
+                if key in KEY_MAP.values():
+                    break
+            
+        return INVERTED_KEY_MAP[key]
     
     def clear(self):
         self.screen.fill(BACKGROUND)
