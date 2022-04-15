@@ -1,0 +1,17 @@
+#!usr/bin/env python
+
+import os, sys
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
+from chipy8.run import run
+
+try:
+    romfile = sys.argv[1]
+except IndexError:
+    print("Missing input romfile")
+    sys.exit()
+
+if os.path.isfile(romfile) and romfile[-4:] == ".ch8":
+    sys.exit(run(romfile))
+else:
+    print("File was not a .ch8 romfile")
+    sys.exit()
