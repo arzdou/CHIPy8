@@ -7,7 +7,7 @@ def run():
     chip = Chip8()
     chip.start_screen()
     chip.load_into_memory("roms/font.ch8", 0x0)
-    chip.load_into_memory("roms/IBM_logo.ch8", 0x200)
+    chip.load_into_memory("roms/test_opcode.ch8", 0x200)
     
     running = True
     while running:

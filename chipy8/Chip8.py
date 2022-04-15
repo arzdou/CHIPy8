@@ -168,7 +168,7 @@ class Chip8():
         self.var[X] = (self.var[X] + NN) % 256
         return 0
 
-    def logic_instructions(self, X, Y, N):
+    def logic_instructions(self, X, Y, N, **kwarg):
         """
         0x8XYN instruction.
         This instruction is associated with the following logical operations:
@@ -208,26 +208,31 @@ class Chip8():
                 self.var[0xF] = 1 
 
         elif N == 0x5:
-            res = VX - VY
-            self.var[X] = abs(res)
-            self.var[0xF] = 0
-            if res>0:
-                self.var[0xF] = 1 
+            if VX > VY:
+                self.var[X] = VX - VY
+                self.var[0xF] = 1
+            else: 
+                self.var[X] = 256 + VX - VY
+                self.var[0xF] = 0
 
-        elif N == 0x6:
-            self.var[X] = VY >> 1
-            self.var[0xF] = VY % 2 # VY & 0x1 is equivalent
+        elif N == 0x6: # Fails
+            self.var[X] = (VX >> 1) % 256
+            self.var[0xF] = VX & 0x1
 
         elif N == 0x7:
-            res = VY - VX
-            self.var[X] = abs(res)
-            self.var[0xF] = 0
-            if res>0:
+            if VY > VX:
+                self.var[X] = VY - VX
                 self.var[0xF] = 1
+            else: 
+                self.var[X] = 256 + VY - VX
+                self.var[0xF] = 0
 
-        elif N == 0xE:
-            self.var[X] = VY << 1
-            self.var[0xF] = VY % 2 # VY & 0x1 is equivalent
+        elif N == 0xE: # Fails
+            self.var[X] = (VX << 1) % 256
+            self.var[0xF] = VX & 0x1
+        
+        else:
+            raise RuntimeError("Operational code used is not valid")
 
         return 0
 
