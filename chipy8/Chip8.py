@@ -1,8 +1,6 @@
 from random import randint
 from .Interface import Interface
-
-INITIAL_PC = 0x200
-COSMAC_VIP = False
+from .config import INITIAL_PC, COSMAC_VIP
 
 class Chip8():
     def __init__(self):
