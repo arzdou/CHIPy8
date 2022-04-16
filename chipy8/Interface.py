@@ -1,6 +1,6 @@
 import sys
 import pygame
-from .config import UPSCALE, COLOR, BACKGROUND, KEY_MAP, INVERTED_KEY_MAP, WINDOW_NAME, ICON_FILE
+from .config import *
 
 class Interface():
     def __init__(self):
@@ -8,10 +8,16 @@ class Interface():
 
     def start(self):
         pygame.init()
+        
         self.screen = pygame.display.set_mode((64*UPSCALE, 32*UPSCALE))
         pygame.display.set_caption(WINDOW_NAME)
+
         icon = pygame.image.load(ICON_FILE)
         pygame.display.set_icon(icon)
+
+        pygame.mixer.init()
+        self.beep = pygame.mixer.Sound(SOUND_FILE)
+
         self.clear()
         self.update()
         
@@ -69,7 +75,7 @@ class Interface():
         return INVERTED_KEY_MAP[key]
 
     def make_beep(self):
-        #print("beep")
+        self.beep.play()
         return 0
     
     def clear(self):
