@@ -24,7 +24,6 @@ And then execute either by double-clicking or through the command line. When lau
 
 ### Future development
 
-- Parallelize the cpu and counter threads for a more accurate emulation
 - Add simple toolbar for file loading and reseting.
 - Add customization options as well as the ability to save option presets.
 - Support for SUPER-CHIP and XO-CHIP
