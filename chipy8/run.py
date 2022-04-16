@@ -16,7 +16,7 @@ def run(romfile=""):
                     pygame.quit()
                     return 0
                 elif e.type == pygame.DROPFILE:
-                    if e.file.endswith([".ch8", ".chip8", ".c8"]):
+                    if e.file.endswith((".ch8", ".chip8", ".c8")):
                         romfile = e.file
                         waiting_for_rom = False
 

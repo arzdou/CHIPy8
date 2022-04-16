@@ -18,7 +18,7 @@ else:
     romfile = args[1]
 
 
-if os.path.isfile(romfile) and romfile.endswith([".ch8", ".chip8", ".c8"]):
+if os.path.isfile(romfile) and romfile.endswith((".ch8", ".chip8", ".c8")):
     sys.exit(run(romfile))
 else:
     print("Argument was not a valid .ch8 romfile")
