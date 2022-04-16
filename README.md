@@ -24,7 +24,7 @@ chipy8 file/to/rom.ch8
 
 ### Thanks
 
-The interpreter was done following the [guide to making a CHIP-8 emulator](https://tobiasvl.github.io/blog/write-a-chip-8-emulator) by Tobias V. Langhoff as well as using the [Yet Another (Super) Chip 8 Emulator](https://tobiasvl.github.io/blog/write-a-chip-8-emulator) project by Craig Thomas
+The interpreter was done following the [guide to making a CHIP-8 emulator](https://tobiasvl.github.io/blog/write-a-chip-8-emulator) by Tobias V. Langhoff as well as inspiration from [Yet Another (Super) Chip 8 Emulator](https://tobiasvl.github.io/blog/write-a-chip-8-emulator) project by Craig Thomas
 
 ### Notes
 
