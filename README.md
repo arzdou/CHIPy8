@@ -14,6 +14,14 @@ And load and run any _.ch8_ file with the command
 chipy8 file/to/rom.ch8
 ```
 
+Alternatively you can download the binary located on the releases tab (only working for GNU/Linux at the moment). To execute first you must give it permission by typing
+
+```
+chmod +x CHIPy8
+```
+
+And then execute either by double-clicking or clicking it with the command line.
+
 ### Future development
 
 - Parallelize the cpu and counter threads for a more accurate emulation
