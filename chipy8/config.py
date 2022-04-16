@@ -1,6 +1,9 @@
 import pygame
 
-FONT_FILE = "font.ch8"
+ICON_FILE = "rsc/icon.png"
+WINDOW_NAME = "CHIPy8"
+
+FONT_FILE = "rsc/font.ch8"
 WAITING_TIME = 1
 INITIAL_PC = 0x200
 COSMAC_VIP = False

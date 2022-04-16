@@ -1,6 +1,6 @@
 import sys
 import pygame
-from .config import UPSCALE, COLOR, BACKGROUND, KEY_MAP, INVERTED_KEY_MAP
+from .config import UPSCALE, COLOR, BACKGROUND, KEY_MAP, INVERTED_KEY_MAP, WINDOW_NAME, ICON_FILE
 
 class Interface():
     def __init__(self):
@@ -9,6 +9,9 @@ class Interface():
     def start(self):
         pygame.init()
         self.screen = pygame.display.set_mode((64*UPSCALE, 32*UPSCALE))
+        pygame.display.set_caption(WINDOW_NAME)
+        icon = pygame.image.load(ICON_FILE)
+        pygame.display.set_icon(icon)
         self.clear()
         self.update()
         
