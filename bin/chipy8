@@ -8,11 +8,7 @@ from chipy8.run import run
 args = sys.argv
 
 if len(args) == 1:
-    print(
-        " CHIPy8, a simple python CHIP8 interpreter by Jaime Travesedo. \n",
-        "Use 'chipy8 file/to/rom.ch8' to run a CHIP8 program."
-    )
-    sys.exit()
+    sys.exit(run())
 
 elif len(args) > 2:
     print("Only one argument is accepted")
@@ -22,7 +18,7 @@ else:
     romfile = args[1]
 
 
-if os.path.isfile(romfile) and romfile[-4:] == ".ch8":
+if os.path.isfile(romfile) and romfile.endswith([".ch8", ".chip8", ".c8"]):
     sys.exit(run(romfile))
 else:
     print("Argument was not a valid .ch8 romfile")

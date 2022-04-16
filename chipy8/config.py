@@ -1,9 +1,20 @@
 import pygame
+import sys
+import os
+
+def resource_path(relative_path):
+    try:
+    # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 WINDOW_NAME = "CHIPy8"
-ICON_FILE = "chipy8/rsc/icon.png"
-FONT_FILE = "chipy8/rsc/font.ch8"
-SOUND_FILE = "chipy8/rsc/beep.mp3"
+ICON_FILE = resource_path("chipy8/rsc/icon.png")
+FONT_FILE = resource_path("chipy8/rsc/font.ch8")
+SOUND_FILE = resource_path("chipy8/rsc/beep.mp3")
 
 WAITING_TIME = 1
 INITIAL_PC = 0x200
