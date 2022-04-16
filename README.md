@@ -20,7 +20,7 @@ Alternatively you can download the binary located on the releases tab (only work
 chmod +x CHIPy8
 ```
 
-And then execute either by double-clicking or clicking it with the command line.
+And then execute either by double-clicking or through the command line. When launched this way you will be greeted by a black screen, drag and drop any `.ch8`, `.chip8` or `.c8` romfile to load and run it.
 
 ### Future development
 
