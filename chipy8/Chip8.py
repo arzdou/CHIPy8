@@ -4,6 +4,7 @@ from .config import INITIAL_PC, COSMAC_VIP
 
 class Chip8():
     def __init__(self):
+        self.running = True
         # Declare all registers
         self.memory = bytearray()     # Memory of 4kB
         self.var = bytearray()        # 16 8-bit Variable registers
@@ -422,6 +423,11 @@ class Chip8():
         for i, byte in enumerate(rom):
             self.memory[location+i] = byte
         
+        return 0
+
+    def wait_and_load(self, location):
+        romfile = self.interface.wait_for_drop()
+        self.load_into_memory(romfile, location)
         return 0
     
     def decrease_counters(self):

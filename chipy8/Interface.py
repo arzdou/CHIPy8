@@ -74,6 +74,20 @@ class Interface():
             
         return INVERTED_KEY_MAP[key]
 
+    def wait_for_drop(self):
+        waiting_for_rom = True
+        while waiting_for_rom:
+            pygame.time.wait(WAITING_TIME)
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    pygame.quit()
+                    return 0
+                elif e.type == pygame.DROPFILE:
+                    file = e.file
+                    if file.endswith((".ch8", ".chip8", ".c8")):
+                        waiting_for_rom = False
+        return file
+
     def make_beep(self):
         self.beep.play()
         return 0
