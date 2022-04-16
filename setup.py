@@ -25,5 +25,8 @@ setuptools.setup(
         'pygame',
     ],
     packages=['chipy8'],
+    package_data = {
+        'chipy8': ['beep.mp3', 'icon.png', 'font.ch8'],
+    },
     python_requires='>=3.8',
 )
