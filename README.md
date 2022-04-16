@@ -16,7 +16,7 @@ chipy8 file/to/rom.ch8
 
 ### Future development
 
-- Implement sound.
+- Parallelize the cpu and counter threads for a more accurate emulation
 - Add simple toolbar for file loading and reseting.
 - Add customization options as well as the ability to save option presets.
 - Support for SUPER-CHIP and XO-CHIP

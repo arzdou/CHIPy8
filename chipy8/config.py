@@ -1,9 +1,10 @@
 import pygame
 
-ICON_FILE = "rsc/icon.png"
 WINDOW_NAME = "CHIPy8"
-
+ICON_FILE = "rsc/icon.png"
 FONT_FILE = "rsc/font.ch8"
+SOUND_FILE = "rsc/beep.mp3"
+
 WAITING_TIME = 1
 INITIAL_PC = 0x200
 COSMAC_VIP = False
