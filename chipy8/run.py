@@ -1,6 +1,4 @@
-import sys
 import pygame
-from threading import Thread
 
 from .Chip8 import Chip8
 from .config import FONT_FILE, INITIAL_PC, WAITING_TIME
@@ -14,7 +12,7 @@ def main_loop(chip: Chip8):
     while chip.running:
         pygame.time.wait(WAITING_TIME)
         chip.iterate()
-
+        chip.decrease_counters()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 chip.running = False
@@ -22,16 +20,6 @@ def main_loop(chip: Chip8):
 
     pygame.quit()
     return 0
-
-def decrease_counters(chip: Chip8):
-    """
-    Decrease counters of the Chip8 instance at a steady rate. This is separated
-    from the main execution loop so that it runs in an independent thread allowing
-    a more accurate CHIP8 behaviour.
-    """
-    while chip.running:
-        pygame.time.wait(WAITING_TIME)
-        chip.decrease_counters()
 
 def run(romfile=""):
     chip = Chip8()
@@ -43,13 +31,6 @@ def run(romfile=""):
     else:
         chip.load_into_memory(romfile, INITIAL_PC)
     
-    main_thread = Thread(target=main_loop, args=(chip,))
-    counter_thread = Thread(target=decrease_counters, args=(chip,))
-
-    main_thread.start()
-    counter_thread.start()
-
-    main_thread.join()
-    counter_thread.join()
+    main_loop(chip)
 
     return 0
