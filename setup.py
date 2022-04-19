@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="CHIPy8",
-    version="0.1.1",
+    version="0.1.2",
     author="Jaime Travesedo",
     author_email="jaimetravesedo125@gmail.com",
     description="CHIP8 interpreter",

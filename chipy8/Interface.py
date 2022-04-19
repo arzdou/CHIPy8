@@ -80,8 +80,7 @@ class Interface():
             pygame.time.wait(WAITING_TIME)
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
-                    pygame.quit()
-                    return 0
+                    return 1
                 elif e.type == pygame.DROPFILE:
                     file = e.file
                     if file.endswith((".ch8", ".chip8", ".c8")):

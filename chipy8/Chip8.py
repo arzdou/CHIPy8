@@ -427,7 +427,10 @@ class Chip8():
 
     def wait_and_load(self, location):
         romfile = self.interface.wait_for_drop()
-        self.load_into_memory(romfile, location)
+        if romfile == 1:
+            self.running = False
+        else:
+            self.load_into_memory(romfile, location)
         return 0
     
     def decrease_counters(self):
