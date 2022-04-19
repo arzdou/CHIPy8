@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/jtl125/CHIPy8/master/chipy8/icon.png" width="60" align="right">
+
 # CHIPy8
 
 CHIPy8 is a simple python interpreter for CHIP8. It currently lacks most functions from interpreters such as interactive file loading, save states, debugging mode, etc. 
