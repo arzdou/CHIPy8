@@ -17,6 +17,12 @@ def main_loop(chip: Chip8):
             if event.type == pygame.QUIT:
                 chip.running = False
                 break
+            elif event.type == pygame.KEYDOWN:
+                # Escape Key resets the emulator
+                if event.key == pygame.K_ESCAPE:
+                    chip.reset()
+                    chip.wait_and_load(INITIAL_PC)
+                    chip.interface.clear()
 
     pygame.quit()
     return 0
@@ -31,6 +37,7 @@ def run(romfile=""):
     else:
         chip.load_into_memory(romfile, INITIAL_PC)
     
+    chip.interface.clear()
     main_loop(chip)
 
     return 0

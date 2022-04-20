@@ -57,6 +57,8 @@ class Chip8():
             self.start_interface()
         else:
             self.interface.clear()
+            
+        self.interface.draw_logo()
         
     def iterate(self):
         """
@@ -205,10 +207,10 @@ class Chip8():
 
         elif N == 0x5:
             if VX > VY:
-                self.var[X] = VX - VY
+                self.var[X] = (VX - VY) % 256
                 self.var[0xF] = 1
             else: 
-                self.var[X] = 256 + VX - VY
+                self.var[X] = (256 + VX - VY) % 256
                 self.var[0xF] = 0
 
         elif N == 0x6: # Fails
@@ -217,10 +219,10 @@ class Chip8():
 
         elif N == 0x7:
             if VY > VX:
-                self.var[X] = VY - VX
+                self.var[X] = (VY - VX) % 256
                 self.var[0xF] = 1
             else: 
-                self.var[X] = 256 + VY - VX
+                self.var[X] = (256 + VY - VX) % 256
                 self.var[0xF] = 0
 
         elif N == 0xE: # Fails

@@ -25,14 +25,14 @@ class Interface():
         pygame.display.update()
         return 0
 
-    def draw_pixel(self, x, y):
+    def draw_pixel(self, x, y, c=COLOR):
         width = (
             UPSCALE*x,
             UPSCALE*y,
             UPSCALE,
             UPSCALE
         ) 
-        pygame.draw.rect(self.screen, COLOR, width)
+        pygame.draw.rect(self.screen, c, width)
         return 0
     
     def errase_pixel(self, x, y):
@@ -51,6 +51,14 @@ class Interface():
         if color == BACKGROUND:
             pixel = False
         return pixel
+    
+    def draw_logo(self):
+        for y in range(32):
+            for x in range(32):
+                color_index = INDEX_ICON[x+y*32]
+                self.draw_pixel(x+16, y, LOGO_COLORS[color_index])
+            pygame.event.wait(10)
+            pygame.display.update()
 
     def is_key_pressed(self, key_index):
         key = KEY_MAP[key_index]
@@ -63,7 +71,7 @@ class Interface():
         """
         pygame.event.clear()
         while True:
-            event = pygame.event.wait()
+            event = pygame.event.wait(WAITING_TIME)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit() 
@@ -93,4 +101,5 @@ class Interface():
     
     def clear(self):
         self.screen.fill(BACKGROUND)
+        pygame.display.update()
         return 0
